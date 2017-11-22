@@ -358,7 +358,11 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			//printf("xj________________________xj ELEC PUSH STOP\n");
 		}
 		else if ( ((CMD_CROSS_ALARM_STOP_PUSH == psPara->m_eType)||(CMD_RED_STRAP_STOP_PUSH == psPara->m_eType)) && psCmdClient->m_pushStreamFlg == 1)
-		{	
+		{
+                        if(CMD_RED_STRAP_STOP_PUSH == psPara->m_eType) {
+				extern void pthread_RedStrap_Interrupt();
+				pthread_RedStrap_Interrupt();	
+			}
 			if (CMD_MANUAL_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 			{
 				DataPkgRelease(cmdPkg);

@@ -588,9 +588,17 @@ int tcpCmdSamplePara(CMD_HANDLE* pthis)
 	return tcpCmdHandlSendCmd2(pthis,replySubId,body,paraNum);
 }
 
+static int redstrap_delay_id = 0;
+void pthread_RedStrap_Interrupt()
+{
+    redstrap_delay_id++;
+}
 static void* pthread_delay_RedStrap_stop(void* args)
 {
+        int id = redstrap_delay_id;
 	sleep(20);
+        if(id != redstrap_delay_id) return NULL;
+
 	CMD_PARA cmdPara;
 	cmdPara.m_eType = CMD_RED_STRAP_STOP_PUSH;
 	tcpClientHandlePushCmd(&cmdPara);
