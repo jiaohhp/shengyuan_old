@@ -1,0 +1,11 @@
+#!/bin/sh
+hisi=$(pwd)/hisi-linux/x86-arm/arm-hisiv100-linux/bin
+
+
+export PATH=${PATH}:${hisi}
+export CROSS=arm-hisiv100-linux-uclibcgnueabi- 
+
+#${hisi}/${CROSS}gcc -v
+#exit 0
+
+make $1
