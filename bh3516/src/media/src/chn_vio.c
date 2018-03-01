@@ -137,7 +137,7 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 			s_ViDevCsc.u32LumaVal 	= 50;	  //亮度调节50
 			s_ViDevCsc.u32HueVal		= 50; //色调调节50
 			s_ViDevCsc.u32ContrVal	= 70;     //对比度调节50
-			s_ViDevCsc.u32SatuVal		= 0;//0为黑白图像
+			s_ViDevCsc.u32SatuVal		= 50;//0为黑白图像
 			s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
 			s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
 			if (s32Ret != HI_SUCCESS)
@@ -151,7 +151,7 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 			s_ViDevCsc.u32LumaVal 	= 50;		//亮度调节50
 			s_ViDevCsc.u32HueVal		= 50;	//色调调节50
 			s_ViDevCsc.u32ContrVal	= 40;		//对比度调节50
-			s_ViDevCsc.u32SatuVal		= 0;//0为黑白图像
+			s_ViDevCsc.u32SatuVal		= 50;//0为黑白图像
 			s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
 			s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
 			if (s32Ret != HI_SUCCESS)
