@@ -128,54 +128,18 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 		return HI_FAILURE;
 	}
 
-#if 1
 	VI_CSC_ATTR_S s_ViDevCsc;
-	switch (enViDevType)
-		{
-			case OV_9712_DC_1280_800P:
-			//VI_CSC_ATTR_S s_ViDevCsc;
-			s_ViDevCsc.u32LumaVal 	= 50;	  //亮度调节50
-			s_ViDevCsc.u32HueVal		= 50; //色调调节50
-			s_ViDevCsc.u32ContrVal	= 70;     //对比度调节50
-			s_ViDevCsc.u32SatuVal		= 50;//0为黑白图像
-			s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
-			s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
-			if (s32Ret != HI_SUCCESS)
-			{
-				ptf_err(" HI_MPI_VI_SetCscAttr err 0x%x",__FUNCTION__, s32Ret);
-				return s32Ret;
-			}
-			break;
-			case OV_2640_DC_800_600P:
-			//VI_CSC_ATTR_S s_ViDevCsc;
-			s_ViDevCsc.u32LumaVal 	= 50;		//亮度调节50
-			s_ViDevCsc.u32HueVal		= 50;	//色调调节50
-			s_ViDevCsc.u32ContrVal	= 40;		//对比度调节50
-			s_ViDevCsc.u32SatuVal		= 50;//0为黑白图像
-			s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
-			s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
-			if (s32Ret != HI_SUCCESS)
-			{
-				ptf_err(" HI_MPI_VI_SetCscAttr err 0x%x",__FUNCTION__, s32Ret);
-				return s32Ret;
-			}
-			break;
-			default:
-				return HI_FAILURE;
-		}
-	//VI_CSC_ATTR_S s_ViDevCsc;
-	//s_ViDevCsc.u32LumaVal 	= 50;
-	//s_ViDevCsc.u32HueVal		= 50;
-	//s_ViDevCsc.u32ContrVal	= 50;
-	//s_ViDevCsc.u32SatuVal		= 0;//0为黑白图像
-	//s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
-	//s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
-	//if (s32Ret != HI_SUCCESS)
-	//{
-	//	ptf_err(" HI_MPI_VI_SetCscAttr err 0x%x",__FUNCTION__, s32Ret);
-	//	return s32Ret;
-	//}
-#endif
+	s_ViDevCsc.u32LumaVal 	= 50;
+	s_ViDevCsc.u32HueVal		= 50;
+	s_ViDevCsc.u32ContrVal	= 50;
+	s_ViDevCsc.u32SatuVal		= 50;//0为黑白图像
+	s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
+	s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
+	if (s32Ret != HI_SUCCESS)
+	{
+		ptf_err(" HI_MPI_VI_SetCscAttr err 0x%x",__FUNCTION__, s32Ret);
+		return s32Ret;
+	}
 	//printf("end\n");
 	return HI_SUCCESS;
 }
