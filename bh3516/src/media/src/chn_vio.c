@@ -52,8 +52,8 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 		stViDevAttr.enClkEdge 								= VI_CLK_EDGE_SINGLE_UP; 		/* clock edge define */
 		stViDevAttr.enScanMode 							= VI_SCAN_PROGRESSIVE;			/* input scan mode */
 		stViDevAttr.enDataType 							= VI_DATA_TYPE_RGB;    				/* Date type (RGB or YUV */
-		stViDevAttr.unDataSeq.enRgbSeq 			= VI_DATA_SEQ_GRGR;				/* input data seq (Bayer patten) */
-		stViDevAttr.bUseInterISP 							= HI_FALSE;		 							/* inside isp or not */
+        stViDevAttr.unDataSeq.enRgbSeq 			= VI_DATA_SEQ_BGBG;				/* input data seq (Bayer patten) */
+        stViDevAttr.bUseInterISP 							= HI_TRUE;		 							/* inside isp or not */
 
 		/* syn timing cfg. BT601/DC interface must config! */
 		stViDevAttr.stSynCfg.enVsync 					= VI_VSYNC_PULSE;

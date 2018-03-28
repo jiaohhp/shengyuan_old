@@ -799,6 +799,20 @@ DataPakg* venc_get_snap_picture(int  logicChn)
 }
 
 
+void* isp_run(void* p)
+{
+    HI_S32 s32Ret;
+    while(1)
+    {
+        s32Ret = HI_MPI_ISP_Run();
+        if(s32Ret != HI_SUCCESS){
+            ptf_err("HI_MPI_ISP_Run %d\n", s32Ret);
+            sleep(1);
+        }
+    }
+
+    return NULL;
+}
 
 /*
 * 功能描述	：	编码模块初始化
@@ -843,6 +857,38 @@ HI_S32 venc_init(void)
 	s_pSnap0_FIFO 		= DataFifoConstruct(FIFO_PRI_CYC, 1);
 	s_pSnap1_FIFO 		= DataFifoConstruct(FIFO_PRI_CYC, 1);
 	//ptf_dbg("---------------------");
+
+#define ERRCODE(x)  (x&0x7FF)
+    //1. sensor init
+    sensor_init();
+    //2. sensor reg cb
+    s32Ret = sensor_register_callback();
+    if(s32Ret != HI_SUCCESS) ptf_err("sensor_register_callback %0xX\n", ERRCODE(s32Ret));
+//    //2.1 test pattern  !! Failed.
+//    s32Ret = sensor_write_register(0xca,0x24);
+//    if(s32Ret != HI_SUCCESS) ptf_err("(0xca,0x24) %0xX\n", ERRCODE(s32Ret));
+//    s32Ret = sensor_write_register(0x12,0x02);
+//    if(s32Ret != HI_SUCCESS) ptf_err("(0x12,0x02) %0xX\n", ERRCODE(s32Ret));
+//    s32Ret = sensor_write_register(0x97,0x88);
+//    if(s32Ret != HI_SUCCESS) ptf_err("(0x97,0x88) %0xX\n", ERRCODE(s32Ret));
+    //3. isp init
+    s32Ret = HI_MPI_ISP_Init();
+    if(s32Ret != HI_SUCCESS) ptf_err("HI_MPI_ISP_Init %0xX\n", ERRCODE(s32Ret));
+    //4. timing cfg
+    ISP_INPUT_TIMING_S timing;
+    timing.enWndMode = ISP_WIND_NONE;
+    s32Ret = HI_MPI_ISP_SetInputTiming(&timing);
+    if(s32Ret != HI_SUCCESS) ptf_err("HI_MPI_ISP_SetInputTiming %0xX\n", ERRCODE(s32Ret));
+    //5. img cfg
+    ISP_IMAGE_ATTR_S img;
+    img.enBayer = BAYER_BGGR;
+    img.u16Width = 1280;
+    img.u16Height = 800;
+    img.u16FrameRate = 10;
+    s32Ret = HI_MPI_ISP_SetImageAttr(&img);
+    if(s32Ret != HI_SUCCESS) ptf_err("HI_MPI_ISP_SetImageAttr %0xX\n", ERRCODE(s32Ret));
+    ThreadPoolAddWorkUnlimit((void*)g_psThreadPool, isp_run, NULL);
+
 
 	VENC_CTRL_INFO *pInfo;
 
