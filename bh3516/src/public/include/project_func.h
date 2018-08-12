@@ -77,6 +77,7 @@ typedef enum PT_LOAD_TYPE_E
     HEART_BEAT		= 3,		//心跳数据
     VIDEO_PICTURE	= 4,		//图片数据
     SAMPLE_DATA		= 5,		//采集数据
+    MANUAL_SNAP_PICTURE = 6,    //xhjiao
     LAST,
 }PT_LOAD_TYPE_E;
 

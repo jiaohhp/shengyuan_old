@@ -19,6 +19,40 @@
 #include "sys_mag.h"
 #include "gpio_cfg.h"
 
+int tcpCmdHandlSendPicture_ManualSnap(CMD_HANDLE* pthis, VIDEO_PARAM * psVPara,char* picBuf,int picLen)
+{
+        pthis->m_ptHead.m_headTag[0] 	= 'B';
+        pthis->m_ptHead.m_headTag[1] 	= 'N';
+        pthis->m_ptHead.m_headTag[2] 	= 'X';
+        pthis->m_ptHead.m_ptType 		= MANUAL_SNAP_PICTURE;
+        pthis->m_ptHead.m_ptLen  			= picLen + VIDEO_PARAM_LEN;
+
+        struct iovec iov[3];
+        iov[0].iov_base 	= (void*)(pthis->m_Buf);
+        iov[0].iov_len  	= PutPtHead2Buf(&(pthis->m_ptHead),pthis->m_Buf);
+
+        unsigned char* pBuf = pthis->m_Buf + PT_HEAD_LEN;
+        PutVideoPara2Buf(psVPara, pBuf);
+
+        iov[1].iov_base 	= (void*)(pBuf);
+        iov[1].iov_len  	= VIDEO_PARAM_LEN;
+
+        iov[2].iov_base 	= (void*)(picBuf);
+        iov[2].iov_len  	= picLen;
+
+        int iRet = writev(pthis->m_Socket, iov, 3);
+        if (-1 == iRet)
+        {
+                perror("writev");
+                ptf_err("send data errno %d", errno);
+                return -1;
+        }
+
+        return 0;
+}
+
+
+
 //常量定义区
 
 //文件内部使用的宏
@@ -661,33 +695,26 @@ int tcpCmdMediaCtrl(CMD_HANDLE* pthis)
 		}break;
 		case SUB_MANUAL_GET_SNAP_PIC:
 		{
-			DFW_E eDfw = atoi(pthis->m_ArrBuf[0]);
-			////printf("input char is %d\n",eDfw);
-			int logicChn = GetDFWChn(eDfw);
-			////printf("input logicChn is %d\n",logicChn);
-			replySubId = SUB_MANUAL_GET_SNAP_PIC_RSP;
-			gpio_led_ctrl(logicChn, led_on,led_snap);
-			usleep(1100000);
-			DataPakg* pkg = venc_get_snap_picture(logicChn);
-			if (NULL != pkg)
-			{
-				sprintf(body, "%d|%d|%d|%d|%d|", logicChn,eDfw,BH_DEST_WIDTH,BH_DEST_HEIGHT,pkg->m_iDataSize);
-				paraNum = 5;
-				tcpCmdHandlSendCmd2(pthis,replySubId,body,paraNum);
-				int ret=MyWritev(pthis->m_Socket, pkg->m_bData, pkg->m_iDataSize);
-				DataPkgRelease(pkg);
-				usleep(500000);
-				gpio_led_ctrl(logicChn, led_off,led_snap);
-				return ret;
-			}
-			else
-			{
-				usleep(500000);
-				gpio_led_ctrl(logicChn, led_off,led_snap);
-				sprintf(body, "%d|", ERR_UNKNOW);
-				paraNum = 1;
-			}
-			//DataPkgRelease(void * pthis)
+                        DataPakg* picture;
+                        DFW_E eDfw = atoi(pthis->m_ArrBuf[0]);
+                        int logicChn = GetDFWChn(eDfw);
+                        ptf_dbg("current curnel = %d",eDfw);
+                        gpio_led_ctrl(logicChn, led_on,led_snap);
+                        usleep(500000);
+                        picture = venc_get_snap_picture(logicChn);
+                        if (NULL != picture)
+                        {
+                                VIDEO_PARAM sVPara;
+                                sVPara.m_width 		= BH_DEST_WIDTH;
+                                sVPara.m_height 	= BH_DEST_HEIGHT;
+                                sVPara.m_chn 		= logicChn;
+                                sVPara.m_positon 	= eDfw;
+                                tcpCmdHandlSendPicture_ManualSnap(pthis, &sVPara,picture->m_bData, picture->m_iDataSize);
+                                //ptf_dbg("iRet %dpicture->m_iDataSize %d",iRet,picture->m_iDataSize);
+                                DataPkgRelease(picture);
+                        }
+                        usleep(500000);
+                        gpio_led_ctrl(logicChn, led_off,led_snap);
 		}break;
 		case SUB_RED_STRAP_START:
 		{
@@ -1114,6 +1141,8 @@ int tcpCmdHandlSendPicture(CMD_HANDLE* pthis, VIDEO_PARAM * psVPara,char* picBuf
 
 	return 0;
 }
+
+
 
 /*
 * 功能描述	：	发送视频数据
