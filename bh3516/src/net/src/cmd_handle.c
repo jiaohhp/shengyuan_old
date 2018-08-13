@@ -24,7 +24,7 @@ int tcpCmdHandlSendPicture_ManualSnap(CMD_HANDLE* pthis, VIDEO_PARAM * psVPara,c
         pthis->m_ptHead.m_headTag[0] 	= 'B';
         pthis->m_ptHead.m_headTag[1] 	= 'N';
         pthis->m_ptHead.m_headTag[2] 	= 'X';
-        pthis->m_ptHead.m_ptType 		= MANUAL_SNAP_PICTURE;
+        pthis->m_ptHead.m_ptType 		= VIDEO_PICTURE;
         pthis->m_ptHead.m_ptLen  			= picLen + VIDEO_PARAM_LEN;
 
         struct iovec iov[3];
@@ -700,7 +700,7 @@ int tcpCmdMediaCtrl(CMD_HANDLE* pthis)
                         int logicChn = GetDFWChn(eDfw);
                         ptf_dbg("current curnel = %d",eDfw);
                         gpio_led_ctrl(logicChn, led_on,led_snap);
-                        usleep(500000);
+                        usleep(1100000);
                         picture = venc_get_snap_picture(logicChn);
                         if (NULL != picture)
                         {
@@ -708,7 +708,7 @@ int tcpCmdMediaCtrl(CMD_HANDLE* pthis)
                                 sVPara.m_width 		= BH_DEST_WIDTH;
                                 sVPara.m_height 	= BH_DEST_HEIGHT;
                                 sVPara.m_chn 		= logicChn;
-                                sVPara.m_positon 	= eDfw;
+                                sVPara.m_positon 	= eDfw | 0x20;
                                 tcpCmdHandlSendPicture_ManualSnap(pthis, &sVPara,picture->m_bData, picture->m_iDataSize);
                                 //ptf_dbg("iRet %dpicture->m_iDataSize %d",iRet,picture->m_iDataSize);
                                 DataPkgRelease(picture);

@@ -664,6 +664,9 @@ int tcpClientSendPictureTimer(CMD_CLIENT* psCmdClient)
 {
 	int iRet = 0;
 	struct timeval sCurTime;
+
+        if(1 == psCmdClient->m_pushStreamFlg) return 0; //xhjiao. Do not send picture when streaming.
+
  	gettimeofday(&sCurTime, NULL);
  	//unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //帧模式
  	unsigned long long nowTime  = sCurTime.tv_sec;
@@ -674,7 +677,7 @@ int tcpClientSendPictureTimer(CMD_CLIENT* psCmdClient)
 		int logicChn = GetDFWChn(sDfw);
 		ptf_dbg("current curnel = %d",sDfw);
 		gpio_led_ctrl(logicChn, led_on,led_snap);
-		usleep(500000);
+                usleep(1100000);
 		picture = venc_get_snap_picture(logicChn);
 		if (NULL != picture)
 		{
@@ -787,7 +790,10 @@ static void* tcpClientHandleProc(void* arg)
 				sleep(1);
 				//sleep(1500);
 				continue;
-			}
+                        }
+
+                        sCmdClient.m_lastPicSenTime = 0;
+                        sCmdClient.m_lastSampleDataSenTime = 0;
 			//DataCenterBindFIFO(sCmdClient.m_vChn0Fifo , g_sSensorVenc[0].m_DaceCenter);
 			//DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[1].m_DaceCenter);
 			//加入监听
