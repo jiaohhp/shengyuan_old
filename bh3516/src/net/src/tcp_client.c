@@ -792,8 +792,8 @@ static void* tcpClientHandleProc(void* arg)
 				continue;
                         }
 
-                        sCmdClient.m_lastPicSenTime = 0;
-                        sCmdClient.m_lastSampleDataSenTime = 0;
+                        sCmdClient.m_lastPicSenTime = -3600000;
+                        sCmdClient.m_lastSampleDataSenTime = -3600000;
 			//DataCenterBindFIFO(sCmdClient.m_vChn0Fifo , g_sSensorVenc[0].m_DaceCenter);
 			//DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[1].m_DaceCenter);
 			//º”»Îº‡Ã˝
