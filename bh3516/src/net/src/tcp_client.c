@@ -367,8 +367,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			{
 				DataPkgRelease(cmdPkg);
 				return 0;
-			}
-			int logicChn = GetDFWChn(sDfw);
+                        }
 			
 			
 			psCmdClient->m_pushStreamFlg = 0;
