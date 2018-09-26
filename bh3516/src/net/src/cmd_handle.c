@@ -708,7 +708,7 @@ int tcpCmdMediaCtrl(CMD_HANDLE* pthis)
                                 sVPara.m_width 		= BH_DEST_WIDTH;
                                 sVPara.m_height 	= BH_DEST_HEIGHT;
                                 sVPara.m_chn 		= logicChn;
-                                sVPara.m_positon 	= eDfw | 0x20;
+                                sVPara.m_positon 	= eDfw | 0x30;
                                 tcpCmdHandlSendPicture_ManualSnap(pthis, &sVPara,picture->m_bData, picture->m_iDataSize);
                                 //ptf_dbg("iRet %dpicture->m_iDataSize %d",iRet,picture->m_iDataSize);
                                 DataPkgRelease(picture);

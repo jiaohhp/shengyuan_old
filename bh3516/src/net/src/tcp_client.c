@@ -374,6 +374,30 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			psCmdClient->m_pushStreamFlg = 0;
 			psCmdClient->m_vSndFifo = NULL;
 			psCmdClient->m_pushCmdPara = *psPara;
+
+                        //{2018-0918 snap a picture with 0x20
+                        DataPakg* picture;
+                        //int logicChn = GetDFWChn(psPara->m_para1);
+                        int logicChn = GetDFWChn(sDfw);
+                        ptf_dbg("current curnel_stopCurrent=%d",logicChn);
+                        gpio_led_ctrl(logicChn, led_on,led_snap);
+                        usleep(1100000);
+                        picture = venc_get_snap_picture(logicChn);
+                        if (NULL != picture)
+                        {
+                                VIDEO_PARAM sVPara;
+                                sVPara.m_width 		= BH_DEST_WIDTH;
+                                sVPara.m_height 	= BH_DEST_HEIGHT;
+                                sVPara.m_chn 		= logicChn;
+                                sVPara.m_positon 	= sDfw;
+                                sVPara.m_positon    = (sDfw|0x20);
+                                iRet = tcpCmdHandlSendPicture(psCmdClient->m_pcCmdHandle, &sVPara,picture->m_bData, picture->m_iDataSize);
+                                DataPkgRelease(picture);
+                        }
+                        usleep(500000);
+                        gpio_led_ctrl(logicChn, led_off,led_snap);
+                        ////////////////////////////////////////20180918/////////////////////////////////////////////////}
+
 			gpio_led_ctrl(logicChn, led_off,led_recd);
 			//·¢ËÍÍ£Ö¹ÃüÁî
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
