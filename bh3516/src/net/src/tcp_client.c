@@ -1,4 +1,4 @@
-//±ê×¼Í·ÎÄ¼ş°üº¬ÇøÓò
+//æ ‡å‡†å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 #include <sys/ioctl.h>
 #include <sys/epoll.h>
 
-//×Ô¶¨ÒåÍ·ÎÄ¼ş°üº¬ÇøÓò
+//è‡ªå®šä¹‰å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include "cmd_handle.h"
 #include "cmd_protocol.h"
 #include "dev_property.h"
@@ -31,26 +31,26 @@
 #include "sample_board.h"
 
 
-//³£Á¿¶¨ÒåÇøÓò
+//å¸¸é‡å®šä¹‰åŒºåŸŸ
 
-//ÎÄ¼şÄÚ²¿Ê¹ÓÃµÄºê
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„å®
 
-//ÎÄ¼şÄÚ²¿Ê¹ÓÃµÄÊı¾İÀàĞÍ
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„æ•°æ®ç±»å‹
 typedef struct CMD_CLIENT_S
 {
-	CMD_HANDLE* 		m_pcCmdHandle;							//ÃüÁî½á¹¹Ìå
+	CMD_HANDLE* 		m_pcCmdHandle;							//å‘½ä»¤ç»“æ„ä½“
 
-	CMD_PARA				m_pushCmdPara;								//ÓÃÓÚ¼ÇÂ¼Æô¶¯ÃüÁîºÍ²ÎÊı
-	int							m_pushStreamFlg;							//·¢ËÍÊµÊ±Á÷¿Ø±êÊ¶1·¢ËÍ0²»·¢ËÍ
-	int							m_pushChn;										//ÍÆËÍÊµÊ±Á÷µÄÍ¨µÀ
-	unsigned long long 	m_lastPicSenTime;							//ÉÏ´Î·¢ËÍÕÕÆ¬µÄÊ±¼ä£¬µ¥Î»ÎªºÁÃë
-	unsigned long long 	m_lastSampleDataSenTime;		//ÉÏ´Î·¢ËÍ²É¼¯Êı¾İµÄÊ±¼ä£¬µ¥Î»ÎªºÁÃë
-	unsigned long long 	m_lastHeartSenTime;		//ÉÏ´Î·¢ËÍ²É¼¯Êı¾İµÄÊ±¼ä£¬µ¥Î»ÎªºÁÃë
-	unsigned long long				m_interPicTimes;							//Í¼Æ¬·¢ËÍÊ±¼ä¼ä¸ô,µ¥Î»ÎªºÁÃë
-	unsigned long long				m_interSampleDataTimes;			//Í¼Æ¬·¢ËÍÊ±¼ä¼ä¸ô,µ¥Î»ÎªºÁÃë
-	TDataFIFO*				m_vChn0Fifo;									//Í¨µÀ0 fifo
-	TDataFIFO*				m_vChn1Fifo;									//Í¨µÀ1 fifo
-	TDataFIFO*				m_vSndFifo;										//·¢ËÍÊµÊ±Á÷µÄfifo
+	CMD_PARA				m_pushCmdPara;								//ç”¨äºè®°å½•å¯åŠ¨å‘½ä»¤å’Œå‚æ•°
+	int							m_pushStreamFlg;							//å‘é€å®æ—¶æµæ§æ ‡è¯†1å‘é€0ä¸å‘é€
+	int							m_pushChn;										//æ¨é€å®æ—¶æµçš„é€šé“
+	unsigned long long 	m_lastPicSenTime;							//ä¸Šæ¬¡å‘é€ç…§ç‰‡çš„æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	unsigned long long 	m_lastSampleDataSenTime;		//ä¸Šæ¬¡å‘é€é‡‡é›†æ•°æ®çš„æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	unsigned long long 	m_lastHeartSenTime;		//ä¸Šæ¬¡å‘é€é‡‡é›†æ•°æ®çš„æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	unsigned long long				m_interPicTimes;							//å›¾ç‰‡å‘é€æ—¶é—´é—´éš”,å•ä½ä¸ºæ¯«ç§’
+	unsigned long long				m_interSampleDataTimes;			//å›¾ç‰‡å‘é€æ—¶é—´é—´éš”,å•ä½ä¸ºæ¯«ç§’
+	TDataFIFO*				m_vChn0Fifo;									//é€šé“0 fifo
+	TDataFIFO*				m_vChn1Fifo;									//é€šé“1 fifo
+	TDataFIFO*				m_vSndFifo;										//å‘é€å®æ—¶æµçš„fifo
 	unsigned long long      m_lastLagDataSenTime;
 }CMD_CLIENT;
 
@@ -62,29 +62,29 @@ typedef enum REC_ACTION_E
 }REC_ACTION;
 
 
-//È«¾Ö±äÁ¿
+//å…¨å±€å˜é‡
 
-//¾²Ì¬¾Ö²¿È«¾Ö±äÁ¿
-static DFW_E sDfw	;				//µ±Ç°¹¤×÷µÄ¶¨·´Î»
+//é™æ€å±€éƒ¨å…¨å±€å˜é‡
+static DFW_E sDfw	;				//å½“å‰å·¥ä½œçš„å®šåä½
 CMD_CLIENT sCmdClient;
 static int s_tcpClientState = 0;
 static int manualChn;
 
-//¾Ö²¿º¯ÊıÔ­ĞÍ
+//å±€éƒ¨å‡½æ•°åŸå‹
 
-//ÀàµÄÊµÏÖ
+//ç±»çš„å®ç°
 
-//ÄÚ²¿º¯Êı
+//å†…éƒ¨å‡½æ•°
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´¦ÀífifoÖĞµÄÃüÁî
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0				³É¹¦
-										-1			Ê§°Ü
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	å¤„ç†fifoä¸­çš„å‘½ä»¤
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0				æˆåŠŸ
+										-1			å¤±è´¥
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 */
@@ -147,7 +147,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			//int logicChn = GetDFWChn(psPara->m_para1);
 			if (1 == psCmdClient->m_pushStreamFlg)
 			{	
-				//Èç¹ûÕıÔÚÍÆËÍÊÓÆµÁ÷
+				//å¦‚æœæ­£åœ¨æ¨é€è§†é¢‘æµ
 				if (CMD_MANUAL_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
 					DataPkgRelease(cmdPkg);
@@ -155,19 +155,19 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 				}
 				else if (CMD_ELEC_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					sprintf(body, "%d|",ACTION_ELEC);
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,1);
 				}
 				else if (CMD_CROSS_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					sprintf(body, "%d|",ACTION_ACC);
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,1);
 				}
 				else if (CMD_ELEC_LINK_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					sprintf(body, "%d|",ACTION_LINK);
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,1);
 				}
@@ -194,7 +194,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 		{	
 			if (1 == psCmdClient->m_pushStreamFlg)
 			{
-				//Èç¹ûÕıÔÚÍÆËÍÊÓÆµÁ÷
+				//å¦‚æœæ­£åœ¨æ¨é€è§†é¢‘æµ
 				if (CMD_MANUAL_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
 					DataPkgRelease(cmdPkg);
@@ -202,22 +202,22 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 				}
 				else if (CMD_ELEC_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_CROSS_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_ELEC_LINK_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 			}
 
-			//·¢ËÍ¿ªÊ¼ÃüÁî
+			//å‘é€å¼€å§‹å‘½ä»¤
 			sprintf(body, "%d|%d|%d|%d|%d|",ACTION_ELEC,GetDFWChn(sDfw),sDfw,BH_DEST_WIDTH,BH_DEST_HEIGHT);
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_START,body,5);
 			int dfw = psPara->m_para1;
@@ -239,7 +239,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 		{	
 			if (1 == psCmdClient->m_pushStreamFlg)
 			{
-				//Èç¹ûÕıÔÚÍÆËÍÊÓÆµÁ÷
+				//å¦‚æœæ­£åœ¨æ¨é€è§†é¢‘æµ
 				if (CMD_MANUAL_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
 					DataPkgRelease(cmdPkg);
@@ -247,22 +247,22 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 				}
 				else if (CMD_ELEC_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_CROSS_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_ELEC_LINK_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 			}
 			
-			//·¢ËÍ¿ªÊ¼ÃüÁî
+			//å‘é€å¼€å§‹å‘½ä»¤
 			sprintf(body, "%d|%d|%d|%d|%d|",ACTION_ACC,GetDFWChn(sDfw),sDfw,BH_DEST_WIDTH,BH_DEST_HEIGHT);
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_START,body,5);
 
@@ -285,7 +285,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 		{	
 			if (1 == psCmdClient->m_pushStreamFlg)
 			{
-				//Èç¹ûÕıÔÚÍÆËÍÊÓÆµÁ÷
+				//å¦‚æœæ­£åœ¨æ¨é€è§†é¢‘æµ
 				if (CMD_MANUAL_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
 					DataPkgRelease(cmdPkg);
@@ -293,17 +293,17 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 				}
 				else if (CMD_ELEC_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_CROSS_ALARM_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 				else if (CMD_ELEC_LINK_START_PUSH == psCmdClient->m_pushCmdPara.m_eType)
 				{
-					//·¢ËÍÍ£Ö¹Â¼ÏñÃüÁî£¬ÊÖ¶¯µã²¥ÓÅÏÈ¼¶¸ßÆäÓàºóÕßÓÅÏÈ
+					//å‘é€åœæ­¢å½•åƒå‘½ä»¤ï¼Œæ‰‹åŠ¨ç‚¹æ’­ä¼˜å…ˆçº§é«˜å…¶ä½™åè€…ä¼˜å…ˆ
 					tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 				}
 			}
@@ -315,7 +315,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			}
 			tcpClientSetDFWRecSnap(dfw);
 			
-			//·¢ËÍ¿ªÊ¼ÃüÁî
+			//å‘é€å¼€å§‹å‘½ä»¤
 			sprintf(body, "%d|%d|%d|%d|%d|",ACTION_LINK,GetDFWChn(sDfw),sDfw,BH_DEST_WIDTH,BH_DEST_HEIGHT);
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_START,body,5);
 			
@@ -353,7 +353,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			psCmdClient->m_vSndFifo = NULL;
 			psCmdClient->m_pushCmdPara = *psPara;
 			gpio_led_ctrl(logicChn, led_off,led_recd);
-			//·¢ËÍÍ£Ö¹ÃüÁî
+			//å‘é€åœæ­¢å‘½ä»¤
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 			//printf("xj________________________xj ELEC PUSH STOP\n");
 		}
@@ -398,7 +398,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
                         ////////////////////////////////////////20180918/////////////////////////////////////////////////}
 
 			gpio_led_ctrl(logicChn, led_off,led_recd);
-			//·¢ËÍÍ£Ö¹ÃüÁî
+			//å‘é€åœæ­¢å‘½ä»¤
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 		}
 		else if (CMD_ELEC_LINK_STOP_PUSH == psPara->m_eType)
@@ -414,7 +414,7 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			psCmdClient->m_vSndFifo = NULL;
 			psCmdClient->m_pushCmdPara = *psPara;
 			gpio_led_ctrl(logicChn, led_off,led_recd);
-			//·¢ËÍÍ£Ö¹ÃüÁî
+			//å‘é€åœæ­¢å‘½ä»¤
 			tcpCmdHandlSendCmd1(psCmdClient->m_pcCmdHandle,MAIN_MEDIA_CONTROL,SUB_DEV_TO_PC_STREAM_STOP,body,0);
 		}
 		else if(CMD_FAILURE_CAMERA == psPara->m_eType)
@@ -465,14 +465,14 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 	return iRet;
 }
 
-/*¹¦ÄÜÃèÊö : ¶¨Ê±·¢ËÍĞÄÌøÊı¾İ
+/*åŠŸèƒ½æè¿° : å®šæ—¶å‘é€å¿ƒè·³æ•°æ®
 */
 int tcpClientSendHeartBeat(CMD_CLIENT* psCmdClient)
 {
 	int iRet=0;
 	struct timeval sCurTime;
 	gettimeofday(&sCurTime, NULL);
-	unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //Ö¡Ä£Ê½
+	unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //å¸§æ¨¡å¼
 	if ((nowTime - psCmdClient->m_lastHeartSenTime) >= 1000000)//1000000
 	{
 		psCmdClient->m_lastHeartSenTime = nowTime;
@@ -482,14 +482,14 @@ int tcpClientSendHeartBeat(CMD_CLIENT* psCmdClient)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	¶¨Ê±·¢ËÍ²É¼¯Êı¾İ
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0				³É¹¦
-										-1			Ê§°Ü
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	å®šæ—¶å‘é€é‡‡é›†æ•°æ®
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0				æˆåŠŸ
+										-1			å¤±è´¥
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 */
@@ -500,14 +500,14 @@ int tcpClientSendSampleDataTimer(CMD_CLIENT* psCmdClient)
 	struct timeval sCurTime;
 
  	gettimeofday(&sCurTime, NULL);
- 	unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //Ö¡Ä£Ê½
+ 	unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //å¸§æ¨¡å¼
  	if ((nowTime - psCmdClient->m_lastSampleDataSenTime) >= psCmdClient->m_interSampleDataTimes)
  	{
  		psCmdClient->m_lastSampleDataSenTime = nowTime;
 		CAPTURE_DATA_INFO sHead;
 		memset(&sHead, 0, sizeof(sHead));
 		int pkglen = CAP_DATA_INFO_LEN;
-		//ÎÂ¶ÈÊª¶ÈÒºÎ»µÈ¶¨Ê±Êı¾İ
+		//æ¸©åº¦æ¹¿åº¦æ¶²ä½ç­‰å®šæ—¶æ•°æ®
 		sHead.m_TempNum 	= DataFifoGetPkgsNum(g_pTEMP_FIFO);
 		pkglen += sHead.m_TempNum * 2;
 		sHead.m_HumiNum 	= DataFifoGetPkgsNum(g_pHUMI_FIFO);
@@ -515,7 +515,7 @@ int tcpClientSendSampleDataTimer(CMD_CLIENT* psCmdClient)
 		sHead.m_LiqlNum 		= DataFifoGetPkgsNum(g_pLIQI_FIFO);	
 		pkglen += sHead.m_LiqlNum * 2;
 		
-		//ÊµÊ±Êı¾İ
+		//å®æ—¶æ•°æ®
 	//	if(sHead.m_TempNum||sHead.m_HumiNum||sHead.m_LiqlNum)
 			{
 			//
@@ -669,14 +669,14 @@ int tcpClientSendSampleDataTimer(CMD_CLIENT* psCmdClient)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´¦ÀífifoÖĞµÄÃüÁî
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0				³É¹¦
-										-1			Ê§°Ü
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	å¤„ç†fifoä¸­çš„å‘½ä»¤
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0				æˆåŠŸ
+										-1			å¤±è´¥
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 
@@ -691,7 +691,7 @@ int tcpClientSendPictureTimer(CMD_CLIENT* psCmdClient)
         if(1 == psCmdClient->m_pushStreamFlg) return 0; //xhjiao. Do not send picture when streaming.
 
  	gettimeofday(&sCurTime, NULL);
- 	//unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //Ö¡Ä£Ê½
+ 	//unsigned long long nowTime  = sCurTime.tv_usec  + sCurTime.tv_sec * 1000000;//stStream.u64TimeStamp;    //å¸§æ¨¡å¼
  	unsigned long long nowTime  = sCurTime.tv_sec;
  	//if ((nowTime - psCmdClient->m_lastPicSenTime) >= psCmdClient->m_interPicTimes)
  	if ((nowTime - psCmdClient->m_lastPicSenTime) >= psCmdClient->m_interPicTimes/1000000)
@@ -721,14 +721,14 @@ int tcpClientSendPictureTimer(CMD_CLIENT* psCmdClient)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	·¢ËÍÊµÊ±Á÷
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0				³É¹¦
-										-1			Ê§°Ü
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	å‘é€å®æ—¶æµ
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0				æˆåŠŸ
+										-1			å¤±è´¥
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 */
@@ -744,7 +744,7 @@ int tcpClientSendStream(CMD_CLIENT* psCmdClient)
 			return -1;
 		}
 		
-		//»ñÈ¡ÊÓÆµÊı¾İ
+		//è·å–è§†é¢‘æ•°æ®
 		DataPakg* pkg = DataFifoGet(psCmdClient->m_vSndFifo);
 		if (NULL != pkg)
 		{
@@ -756,21 +756,22 @@ int tcpClientSendStream(CMD_CLIENT* psCmdClient)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	tcp¿Í»§¶Ë·şÎñÏß³Ì
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		ÎŞ
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.12
+* åŠŸèƒ½æè¿°	ï¼š	tcpå®¢æˆ·ç«¯æœåŠ¡çº¿ç¨‹
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		æ— 
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.12
 * -----------------------------------------------
 * 2015/08/12	 V1.0		XXXX		  XXXX
 */
 static void* tcpClientHandleProc(void* arg)
 {
+	int err_count = 0; //xhjiao.0515
 	int socketFd = -1;
 	int nfds,iRet = 0;
-	int isDataNew=-1;//ÅĞ¶ÏÊÇ·ñÓĞĞÂÊı¾İ
+	int isDataNew=-1;//åˆ¤æ–­æ˜¯å¦æœ‰æ–°æ•°æ®
 	
 	int epoolfd = epoll_create(1);
 	memset(&sCmdClient, 0, sizeof(CMD_CLIENT));
@@ -779,11 +780,11 @@ static void* tcpClientHandleProc(void* arg)
 	DataCenterBindFIFO(sCmdClient.m_vChn0Fifo , g_sSensorVenc[0].m_DaceCenter);
 	sCmdClient.m_vChn1Fifo =  DataFifoConstruct(FIFO_PRI_CYC, 30 * 10);
 	DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[1].m_DaceCenter); //2017_07_30
-	//DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[0].m_DaceCenter);  //2017_07_30   Ë«¸Äµ¥Ìí¼Ó
+	//DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[0].m_DaceCenter);  //2017_07_30   åŒæ”¹å•æ·»åŠ 
 	SAMPLE_SEND_TIME_S sSendTime;
 	tcpClientGetTimerSendInter(&sSendTime);
 	sCmdClient.m_interSampleDataTimes = sSendTime.sample_i * 1000000 + sSendTime.sample_d * 100000;
-	//¸Ä±ä·¢ËÍÍ¼Æ¬µÄÊ±¼äÓÉÔ­À´µÄÃë¸ÄÎª·ÖÖÓ
+	//æ”¹å˜å‘é€å›¾ç‰‡çš„æ—¶é—´ç”±åŸæ¥çš„ç§’æ”¹ä¸ºåˆ†é’Ÿ
 	sCmdClient.m_interPicTimes = sSendTime.sanp_i * 1000000*60 + sSendTime.sanp_d * 100000*60;
 	struct epoll_event ev;
 	isDataNew=0;
@@ -801,7 +802,7 @@ static void* tcpClientHandleProc(void* arg)
 				tcpClientGetTimerSendInter(&sSendTime);
 				sample_get_sample_para(&s_samplePara);
 				sCmdClient.m_interSampleDataTimes = sSendTime.sample_i * 1000000 + sSendTime.sample_d * 100000;
-				//¸Ä±ä·¢ËÍÍ¼Æ¬µÄÊ±¼äÓÉÔ­À´µÄÃë¸ÄÎª·ÖÖÓ
+				//æ”¹å˜å‘é€å›¾ç‰‡çš„æ—¶é—´ç”±åŸæ¥çš„ç§’æ”¹ä¸ºåˆ†é’Ÿ
 				sCmdClient.m_interPicTimes = sSendTime.sanp_i * 1000000*60 + sSendTime.sanp_d * 100000*60;
 				isDataNew = 0;
 			}
@@ -819,7 +820,7 @@ static void* tcpClientHandleProc(void* arg)
                         sCmdClient.m_lastSampleDataSenTime = -3600000;
 			//DataCenterBindFIFO(sCmdClient.m_vChn0Fifo , g_sSensorVenc[0].m_DaceCenter);
 			//DataCenterBindFIFO(sCmdClient.m_vChn1Fifo , g_sSensorVenc[1].m_DaceCenter);
-			//¼ÓÈë¼àÌı
+			//åŠ å…¥ç›‘å¬
 			AddSocketToEp(epoolfd, socketFd, EPOOL_READ, EPOOL_LT);
 			if (NULL != sCmdClient.m_pcCmdHandle)
 			{
@@ -837,18 +838,33 @@ static void* tcpClientHandleProc(void* arg)
 		}
 
 		nfds = epoll_wait(epoolfd, &ev, 1, 1);
+		
+		//xhjiao. 0515
+		if(nfds < 0)
+		{
+			if(err_count++ > 15)
+			{
+				DelSocketFromEp(epoolfd, socketFd, EPOOL_READ, EPOOL_LT);
+				close(socketFd);
+				socketFd = -1;
+				continue;
+			}
+		}else
+		{
+			err_count = 0;
+		}
 		if (nfds == 0)
 		{
-			//¼ì²âĞÅÁî
-			//¼ì²â·¢ËÍ²É¼¯Êı¾İ
+			//æ£€æµ‹ä¿¡ä»¤
+			//æ£€æµ‹å‘é€é‡‡é›†æ•°æ®
 			tcpClientSendSampleDataTimer(&sCmdClient);
-			//¼ì²â·¢ËÍÍ¼Æ¬Ê±¼ä
+			//æ£€æµ‹å‘é€å›¾ç‰‡æ—¶é—´
 			tcpClientSendPictureTimer(&sCmdClient);
-			//¼ì²â·¢ËÍÊÓÆµ
+			//æ£€æµ‹å‘é€è§†é¢‘
 			tcpClientSendStream(&sCmdClient);
-			//¼ì²â·¢ËÍĞÄÌø°ü
+			//æ£€æµ‹å‘é€å¿ƒè·³åŒ…
 			tcpClientSendHeartBeat(&sCmdClient);
-			//¼ì²âĞÅÁî
+			//æ£€æµ‹ä¿¡ä»¤
 			tcpClientHandleFIfoCmd(&sCmdClient);
 		}
 		else if (nfds > 0)
@@ -883,7 +899,7 @@ static void* tcpClientHandleProc(void* arg)
 				continue;
 			}		
 
-			//½âÎö¾ßÌåĞ­Òé
+			//è§£æå…·ä½“åè®®
 			iRet = tcpCmdHandleMainId(sCmdClient.m_pcCmdHandle);
 			if (iRet != 0)
 			{
@@ -894,7 +910,7 @@ static void* tcpClientHandleProc(void* arg)
 				isDataNew = -1;
 				//tcpClientGetTimerSendInter(&sSendTime);
 				//sCmdClient.m_interSampleDataTimes = sSendTime.sample_i * 1000000 + sSendTime.sample_d * 100000;
-				//¸Ä±ä·¢ËÍÍ¼Æ¬µÄÊ±¼äÓÉÔ­À´µÄÃë¸ÄÎª·ÖÖÓ
+				//æ”¹å˜å‘é€å›¾ç‰‡çš„æ—¶é—´ç”±åŸæ¥çš„ç§’æ”¹ä¸ºåˆ†é’Ÿ
 				//sCmdClient.m_interPicTimes = sSendTime.sanp_i * 1000000*60 + sSendTime.sanp_d * 100000*60;
 				continue;
 			}
@@ -904,17 +920,17 @@ static void* tcpClientHandleProc(void* arg)
 	return NULL;
 }
 
-//Íâ²¿º¯Êı
+//å¤–éƒ¨å‡½æ•°
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Éè¶¨µ±Ç°×¥ÅÄÂ¼ÏñµÄ¶¨·´Î»
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	dfw	¶¨·´Î»
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		-1			Ê§°Ü
-										0				³É¹¦
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	è®¾å®šå½“å‰æŠ“æ‹å½•åƒçš„å®šåä½
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	dfw	å®šåä½
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		-1			å¤±è´¥
+										0				æˆåŠŸ
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 */
@@ -938,14 +954,14 @@ int tcpClientGetDFWRecSnap()
 
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Éè¶¨¶¨Ê±Æ÷·¢ËÍÊ±¼ä¼ä¸ô
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	psSendTime	·¢ËÍÊ±¼äĞÅÏ¢½á¹¹Ìå
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		-1			Ê§°Ü
-										0				³É¹¦
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.09.26
+* åŠŸèƒ½æè¿°	ï¼š	è®¾å®šå®šæ—¶å™¨å‘é€æ—¶é—´é—´éš”
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	psSendTime	å‘é€æ—¶é—´ä¿¡æ¯ç»“æ„ä½“
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		-1			å¤±è´¥
+										0				æˆåŠŸ
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.09.26
 * -----------------------------------------------
 * 2015/09/26	 V1.0		XXXX		  XXXX
 */
@@ -969,14 +985,14 @@ int tcpClientSetTimerSendInter(SAMPLE_SEND_TIME_S *psSendTime)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	»ñÈ¡¶¨Ê±Æ÷·¢ËÍÊ±¼ä¼ä¸ô
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	psSendTime	·¢ËÍÊ±¼äĞÅÏ¢½á¹¹Ìå
-* ·µ »Ø Öµ	£º		-1			Ê§°Ü
-										0				³É¹¦
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.09.26
+* åŠŸèƒ½æè¿°	ï¼š	è·å–å®šæ—¶å™¨å‘é€æ—¶é—´é—´éš”
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	psSendTime	å‘é€æ—¶é—´ä¿¡æ¯ç»“æ„ä½“
+* è¿” å› å€¼	ï¼š		-1			å¤±è´¥
+										0				æˆåŠŸ
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.09.26
 * -----------------------------------------------
 * 2015/09/26	 V1.0		XXXX		  XXXX
 */
@@ -996,14 +1012,14 @@ int tcpClientGetTimerSendInter(SAMPLE_SEND_TIME_S *psSendTime)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	ÏòÃüÁîfifoÖĞÍ¶µİÃüÁî
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0				³É¹¦
-										-1			Ê§°Ü
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.15
+* åŠŸèƒ½æè¿°	ï¼š	å‘å‘½ä»¤fifoä¸­æŠ•é€’å‘½ä»¤
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0				æˆåŠŸ
+										-1			å¤±è´¥
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.15
 * -----------------------------------------------
 * 2015/08/15	 V1.0		XXXX		  XXXX
 */
@@ -1025,14 +1041,14 @@ int tcpClientHandlePushCmd(CMD_PARA* cmdPara)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Æô¶¯tcp¿Í»§¶Ë·şÎñ£¬¿ªÊ¼Á¬½ÓPC·şÎñÆ÷
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ	£º		0		´ú±íÆô¶¯Á¬½Ó³É¹¦
-										1		´ú±íÖ®Ç°ÒÑ¾­´¦ÓÚÆô¶¯×´Ì¬
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.12
+* åŠŸèƒ½æè¿°	ï¼š	å¯åŠ¨tcpå®¢æˆ·ç«¯æœåŠ¡ï¼Œå¼€å§‹è¿æ¥PCæœåŠ¡å™¨
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼	ï¼š		0		ä»£è¡¨å¯åŠ¨è¿æ¥æˆåŠŸ
+										1		ä»£è¡¨ä¹‹å‰å·²ç»å¤„äºå¯åŠ¨çŠ¶æ€
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.12
 * -----------------------------------------------
 * 2015/08/12	 V1.0		XXXX		  XXXX
 */
@@ -1041,21 +1057,21 @@ int tcpClientStart(void)
 	if (0 != s_tcpClientState)
 		return -1;
 	s_tcpClientState = 1;
-	sDfw = DFW_DW;//Ä¬ÈÏ¶¨Ê±×¥ÅÄ·¢¶¨Î»£¬ºóĞø¸ù¾İÒºÑ¹¼ÆËã·¢ËÍ¶¨Î»»¹ÊÇ·´Î»
-	//Æô¶¯Á¬½ÓPC·şÎñÆ÷Ïß³Ì
+	sDfw = DFW_DW;//é»˜è®¤å®šæ—¶æŠ“æ‹å‘å®šä½ï¼Œåç»­æ ¹æ®æ¶²å‹è®¡ç®—å‘é€å®šä½è¿˜æ˜¯åä½
+	//å¯åŠ¨è¿æ¥PCæœåŠ¡å™¨çº¿ç¨‹
 	ThreadPoolAddWorkLimit((void*)g_psThreadPool, tcpClientHandleProc, (void *)NULL);
 	return 0;
 }
 
 
 /*
-* ¹¦ÄÜÃèÊö	£º	»ñÈ¡pc·şÎñÆ÷ÅäÖÃ
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	ÎŞ
-* Êä³ö²ÎÊı	£º	psPara 	ÓÃÀ´±£´æ»ñÈ¡µ½µÄ²ÎÊı
-* ·µ »Ø Öµ		£º	ÎŞ
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.05
+* åŠŸèƒ½æè¿°	ï¼š	è·å–pcæœåŠ¡å™¨é…ç½®
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	psPara 	ç”¨æ¥ä¿å­˜è·å–åˆ°çš„å‚æ•°
+* è¿” å› å€¼		ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.05
 * -----------------------------------------------
 * 2015/08/05	 V1.0		XXXX		  XXXX
 */
@@ -1071,13 +1087,13 @@ void netGetPcServerPara(PC_SERVER_PARA *psPara)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	ÉèÖÃpc·şÎñÆ÷ÅäÖÃ
-* ³ÉÔ±¸üĞÂ	:		ÎŞ
-* ÊäÈë²ÎÊı	£º	psPara 	ÓÃÀ´±£´æ»ñÈ¡µ½µÄ²ÎÊı
-* Êä³ö²ÎÊı	£º	ÎŞ
-* ·µ »Ø Öµ		£º	ÎŞ
-* ÆäËüËµÃ÷	£º	ÎŞ
-* ĞŞ¸ÄÈÕÆÚ	:		2015.08.05
+* åŠŸèƒ½æè¿°	ï¼š	è®¾ç½®pcæœåŠ¡å™¨é…ç½®
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	psPara 	ç”¨æ¥ä¿å­˜è·å–åˆ°çš„å‚æ•°
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å› å€¼		ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.05
 * -----------------------------------------------
 * 2015/08/05	 V1.0		XXXX		  XXXX
 */
