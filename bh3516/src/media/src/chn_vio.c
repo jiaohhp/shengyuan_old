@@ -3,11 +3,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "ov_9712.h"
 
 //自定义头文件包含区域
 #include "printf_func.h"
 #include "chn_vio.h"
+//line:vid:func_name:ret
+#define Fatal(func_name, ret)	do{\
+			printf("%s:%d:%s:%d", __FILE__, __LINE__, func_name, ret);\
+			printf("\n");\
+			exit(-1);\
+		}while(0)
 
+void OV9712IspInit()
+{
+	pthread_t  isp_thid;
+	ISP_INPUT_TIMING_S timing;
+	ISP_IMAGE_ATTR_S imgAttr;
+	HI_S32 ret;
+
+	OV9712SensorInit();
+	OV9712SensorRegCallback();
+	
+	ret = HI_MPI_ISP_Init();
+	if (ret != HI_SUCCESS)
+	{
+		Fatal("HI_MPI_ISP_Init", ret);
+	}
+	
+	imgAttr.enBayer 		= BAYER_BGGR;
+	imgAttr.u16FrameRate	 = 30;
+	imgAttr.u16Width		 = 1280;
+	imgAttr.u16Height		  = 800;
+	ret = HI_MPI_ISP_SetImageAttr(&imgAttr);
+	if (ret != HI_SUCCESS)
+	{
+		Fatal("HI_MPI_ISP_SetImageAttr", ret);
+	}
+
+	memset(&timing, 0, sizeof(timing));
+	ret = HI_MPI_ISP_SetInputTiming(&timing);	 
+	if (ret != HI_SUCCESS)
+	{
+		Fatal("HI_MPI_ISP_SetInputTiming", ret);
+	}
+	
+	ret = pthread_create(&isp_thid, 0, (void* (*)(void*))HI_MPI_ISP_Run, NULL);
+	if (0 != ret)
+	{
+		Fatal("pthread_create",  ret);
+	}
+
+}
 
 //常量定义区
 
@@ -121,6 +168,8 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 		return HI_FAILURE;
 	}
 
+	if(enViDevType == OV_9712_DC_1280_800P) OV9712IspInit();
+	
 	s32Ret = HI_MPI_VI_EnableDev(ViDev);
 	if (s32Ret != HI_SUCCESS)
 	{

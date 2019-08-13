@@ -15,8 +15,6 @@
 //文件内部使用的宏
 #define  	IO_MUX_CONFIG_BASE 		0x200f0000												//管脚复用配置寄存器基地址
 
-#define   	GPIO5_3_I2C_SDA_FUN	(IO_MUX_CONFIG_BASE + 0x008c)			//muxctrl_reg35,为gpio5_3和I2C_SDA复用控制寄存器
-#define   	GPIO5_4_I2C_SCL_FUN		(IO_MUX_CONFIG_BASE + 0x0090)			//muxctrl_reg36,为gpio5_4和I2C_SCL复用控制寄存器
 
 #define   	GPIO4_0_FUN			(IO_MUX_CONFIG_BASE + 0x0060)		//muxctrl_reg24,配置为gpio工作方式，对应ov9712的pwdn信号
 #define   	GPIO4_1_FUN			(IO_MUX_CONFIG_BASE + 0x0064)		//muxctrl_reg25,配置为gpio工作方式，对应ov9712的reset信号
@@ -67,46 +65,6 @@ static int s_2640_recd_led  = led_off;
 static int s_ov9712_led = led_off;//记录当前ov9712灯的状态
 static int s_ov2640_led = led_off;//记录当前ov2640灯的状态
 
-//内部函数
-
-//全局函数
-
-/*
-* 功能描述	：	配置复用寄存器为I2C工作方式
-* 成员更新	:		无
-* 输入参数	：	
-* 输出参数	：	无
-* 返 回 值	：		无
-* 其它说明	：	
-* 修改日期	:		2015.07.26
-* -----------------------------------------------
-* 2015/07/26	 V1.0		XXXX		  XXXX
-*/
-void i2c_mux_init_I2c(void)
-{
-	void* pLogicAddr 	= NULL;
-	unsigned char ucTmp = 0;
-	pLogicAddr = memmap(GPIO5_3_I2C_SDA_FUN, 0x4);			
-	if (NULL == pLogicAddr)
-	{
-		//printf("memmap GPIO_UART2_RXD failed!\n");
-		return ;
-	}
-	ucTmp = *(unsigned char*)pLogicAddr;
-	*(unsigned char*)pLogicAddr = (ucTmp | 0x1); 		//管脚复用,SDA，最低位置为1配置为sda,为0配置为gpio
-	memunmap(pLogicAddr);
-
-	pLogicAddr = memmap(GPIO5_4_I2C_SCL_FUN, 0x4);			
-	if (NULL == pLogicAddr)
-	{
-		//printf("memmap GPIO_UART2_RXD failed!\n");
-		return ;
-	}
-	ucTmp = *(unsigned char*)pLogicAddr;
-	*(unsigned char*)pLogicAddr = (ucTmp | 0x1); 		//管脚复用,SCL，最低位置为1配置为scl,为0配置为gpio
-	memunmap(pLogicAddr);
-	return ;
-}
 
 /*
 * 功能描述	：	配置两路sensor的使用管脚为gpio工作方式
@@ -1243,7 +1201,6 @@ void ov2640_disable(void)
 */
 void gpio_init(void)
 {
-	i2c_mux_init_I2c();	
 	sensor_mux_init();
 	phy_system_mux_init();
 	gpio_set_phy_output();

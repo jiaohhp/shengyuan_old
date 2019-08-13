@@ -16,7 +16,7 @@ INC=-I $(PWD)/include/hi_head/ -I $(PWD)/include/bh_head/      -I$(PWD)/src/conf
 
  
 LIBS+= -L./obj/ -lmedia -lhard -lnet -lconfig  -lproperty -lsys_mag -lpublic
-LIBS+= -L./lib -lmpi -lisp -laec -lresampler -lanr -lVoiceEngine -lsns_ov
+LIBS+= -L./lib -lmpi -lisp -laec -lresampler -lanr -lVoiceEngine
 LIBS+= -lpthread -lm
 
 MAKE=make -C
