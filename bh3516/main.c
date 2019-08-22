@@ -18,7 +18,7 @@
 #include "public_func.h"
 #include "dev_property.h"
 /*
-	µ÷ÓÃÍòsetio,ov2640configºó£¬9712ÊÇ¹Ø±Õ×´Ì¬£¬2640ÊÇ¿ªÆô×´Ì¬
+	è°ƒç”¨ä¸‡setio,ov2640configåï¼Œ9712æ˜¯å…³é—­çŠ¶æ€ï¼Œ2640æ˜¯å¼€å¯çŠ¶æ€
 */
 int main()
 {	
@@ -26,50 +26,52 @@ int main()
 	ParaSignal();
 	sys_mag_update_check();
 
-	//¼ÓÔØ¹şÏ£±íÅäÖÃÎÄ¼ş
+	//åŠ è½½å“ˆå¸Œè¡¨é…ç½®æ–‡ä»¶
 	cfg_init();
 	
-	//9712 Îª±ê×¼i2c
-	//2640 Îªgpio uartÄ£Äâi2c
+	//9712 ä¸ºæ ‡å‡†i2c
+	//2640 ä¸ºgpio uartæ¨¡æ‹Ÿi2c
 
-	//¼ÓÔØ¶ş½øÖÆÅäÖÃÎÄ¼ş
+	//åŠ è½½äºŒè¿›åˆ¶é…ç½®æ–‡ä»¶
 
-	//³õÊ¼»¯Ö»¶ÁÈ«¾Ö±äÁ¿
+	//åˆå§‹åŒ–åªè¯»å…¨å±€å˜é‡
 	global_para_init();
 	
 	gpio_init();
+
+	OV2640RewriteAddr();
 	
 	ov9712_enable();
 	
 	//ov2640_enable();
 	
-	//Æô¶¯ÍøÂç²ÎÊıÄ£¿é
+	//å¯åŠ¨ç½‘ç»œå‚æ•°æ¨¡å—
 	netParaInit();
 	
-	//Æô¶¯ËÑË÷Æ÷¼àÌı
+	//å¯åŠ¨æœç´¢å™¨ç›‘å¬
 	udpMBInit();
 
-	//Æô¶¯tcpserver
+	//å¯åŠ¨tcpserver
 	tcpServerInit();
 	
-	//Æô¶¯udpÄ£¿é
+	//å¯åŠ¨udpæ¨¡å—
 	udpMBInit();
 	
-	//Æô¶¯Óë²É¼¯°åÍ¨ĞÅ
+	//å¯åŠ¨ä¸é‡‡é›†æ¿é€šä¿¡
 	sample_board_init();
 	
-	//Æô¶¯ÊÓÆµ±àÂë
+	//å¯åŠ¨è§†é¢‘ç¼–ç 
 	venc_init();
 	
-	//Æô¶¯tcpclient
+	//å¯åŠ¨tcpclient
 	tcpClientStart();
 	
-	//Æô¶¯¿´ÃÅ¹·
+	//å¯åŠ¨çœ‹é—¨ç‹—
 	watch_dog_open();
 
 	while (1)
 	//int i;
-	//4Ğ¡Ê±ÖØÆôÒ»´Î4*3600/30=480£¬¾ÍÊÇiµÄÖµ
+	//4å°æ—¶é‡å¯ä¸€æ¬¡4*3600/30=480ï¼Œå°±æ˜¯içš„å€¼
 	//for(i=0;i<120||sleep(300);i++)
 	{
 		//char qutichar = getchar();

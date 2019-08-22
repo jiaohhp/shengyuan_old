@@ -7,6 +7,7 @@ extern "C"{
 #endif
 #endif /* __cplusplus */
 
+void OV2640RewriteAddr();
 
 void ov_2640_init(void);
 

@@ -239,6 +239,11 @@ void sensor_prog(int* rom)
     }
 }
 
+void OV2640RewriteAddr()
+{
+	sensor_write_register(0xFF, 0x0);
+	sensor_write_register(0xF7, 0x40);
+}
 void OV9712SensorInit()
 {
 	//Reset
