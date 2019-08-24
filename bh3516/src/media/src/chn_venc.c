@@ -683,6 +683,14 @@ HI_VOID* venc_get_snap_proc(HI_VOID *args)
 		else if (0 == s32Ret)
 		{
 			ptf_dbg("%s: snap time out!\n", __FUNCTION__);
+			//发送摄像头错误命令
+			CMD_PARA cmdPara;
+			cmdPara.m_eType = CMD_FAILURE_CAMERA;
+						//cmdPara.m_eType = CMD_ELEC_ALARM_STOP_PUSH;
+		    cmdPara.m_para1 	= pInfo->m_ViDev;
+						//ele_stop_snap_dfw = s_SampleCtrl.m_eDfw;
+			tcpClientHandlePushCmd(&cmdPara);
+			continue;
 		}
 		else
 		{

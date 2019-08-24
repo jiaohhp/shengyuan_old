@@ -29,6 +29,7 @@
 #include "ini_config.h"
 #include "gpio_cfg.h"
 #include "sample_board.h"
+#include "sys_mag.h"
 
 
 //常量定义区域
@@ -423,6 +424,9 @@ static int tcpClientHandleFIfoCmd(CMD_CLIENT* psCmdClient)
 			
 			tcpCmdHandleSendFailure(psCmdClient->m_pcCmdHandle, SUB_DEV_FAILURE,SUB_DEV_FAILURE_TYPE,body,2);
 			ptf_dbg("camera failure");
+
+			sleep(2);
+			sys_mag_reboot();
 		}
 		else if(CMD_FAILURE_ACC ==psPara->m_eType)
 		{
