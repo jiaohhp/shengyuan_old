@@ -1,38 +1,38 @@
-//±ê×¼Í·ÎÄ¼þ°üº¬ÇøÓò
+//æ ‡å‡†å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <dirent.h>
 
-//×Ô¶¨ÒåÍ·ÎÄ¼þ°üº¬ÇøÓò
+//è‡ªå®šä¹‰å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include "public_func.h"
 #include "ini_config.h"
 
-//³£Á¿¶¨ÒåÇø
+//å¸¸é‡å®šä¹‰åŒº
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄºê
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„å®
 #define UPDATE_FILE_NAME		"/ipc/update_file"
 #define EXEC_FILE_NAME		"/ipc/IpcServer"
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄÊý¾ÝÀàÐÍ
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„æ•°æ®ç±»åž‹
 
-//È«¾Ö±äÁ¿
+//å…¨å±€å˜é‡
 
-//¾²Ì¬¾Ö²¿±äÁ¿
+//é™æ€å±€éƒ¨å˜é‡
 
-//ÄÚ²¿º¯Êý
+//å†…éƒ¨å‡½æ•°
 
-//Íâ²¿º¯Êý
+//å¤–éƒ¨å‡½æ•°
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Ð´ÈëÉý¼¶ÎÄ¼þ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º	ÎÞ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.01
+* åŠŸèƒ½æè¿°	ï¼š	å†™å…¥å‡çº§æ–‡ä»¶
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.01
 * -----------------------------------------------
 * 2015/08/01 V1.0		XXXX		  XXXX
 */
@@ -42,13 +42,13 @@ void sys_mag_write_update_file(char* buf, int len)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	¼ì²âÉý¼¶ÎÄ¼þÊÇ·ñ´æÔÚ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º	ÎÞ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.01
+* åŠŸèƒ½æè¿°	ï¼š	æ£€æµ‹å‡çº§æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.01
 * -----------------------------------------------
 * 2015/08/01 V1.0		XXXX		  XXXX
 */
@@ -57,7 +57,7 @@ void sys_mag_update_check(void)
 	int ret = access(UPDATE_FILE_NAME, F_OK);
 	if (0 == ret)
 	{
-		//Éý¼¶ÎÄ¼þ´æÔÚ
+		//å‡çº§æ–‡ä»¶å­˜åœ¨
 		char buf[64] = {0};
 		sprintf(buf, "mv %s %s;chmod 777 %s",UPDATE_FILE_NAME,EXEC_FILE_NAME,EXEC_FILE_NAME);
 		system(buf);
@@ -68,13 +68,13 @@ void sys_mag_update_check(void)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	ÏµÍ³ÖØÆô
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º	ÎÞ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.01
+* åŠŸèƒ½æè¿°	ï¼š	ç³»ç»Ÿé‡å¯
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.01
 * -----------------------------------------------
 * 2015/08/01 V1.0		XXXX		  XXXX
 */

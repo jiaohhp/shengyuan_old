@@ -11,9 +11,9 @@ extern "C"{
 #include "datapakg.h"
 typedef enum
 {
-	FIFO_PRI_CYC = 1,	//»º´æ»·£¬»º´æÒç³öÊ±Ñ­»·¸²¸Ç¾ÉÊý¾Ý
-	FIFO_PRI_COM = 2,	//ÆÕÍ¨FIFO£¬»º´æÒç³öÊ±¶ªÆúÐÂÊý¾Ý
-	FIFO_PRI_SEQ = 3,	//ÐòÁÐ»¯FIFO£¬ÎÞÊý¾Ý¶ªÊ§£¬»º´æÒç³öÊ±×èÈûÆäËü²Ù×÷
+	FIFO_PRI_CYC = 1,	//ç¼“å­˜çŽ¯ï¼Œç¼“å­˜æº¢å‡ºæ—¶å¾ªçŽ¯è¦†ç›–æ—§æ•°æ®
+	FIFO_PRI_COM = 2,	//æ™®é€šFIFOï¼Œç¼“å­˜æº¢å‡ºæ—¶ä¸¢å¼ƒæ–°æ•°æ®
+	FIFO_PRI_SEQ = 3,	//åºåˆ—åŒ–FIFOï¼Œæ— æ•°æ®ä¸¢å¤±ï¼Œç¼“å­˜æº¢å‡ºæ—¶é˜»å¡žå…¶å®ƒæ“ä½œ
 }Pri;
 
 typedef struct TDataFIFO_t TDataFIFO;
@@ -21,143 +21,143 @@ struct TDataFIFO_t
 {
 	TDataFIFO 			*m_ptNext;
 	pthread_mutex_t 	m_tLock;
-	int 				m_iPri;			// Êý¾Ý´¦ÀíÓÅÏÈ¼¶
-	int 				m_iBase;		// fifo baseÖ¸Õë
-	int 				m_iTop;			// fifo topÖ¸Õë
-	int 				m_iMaxPkgCnt;	//×î´ó¿É»º´æ°üÊý
-	DataPakg 			*m_ptBuf[0];	//¸Ã³ÉÔ±±ØÐë·ÅÔÚ×îºó£¬·ñÔò»áÄÚ´æ¸²¸Ç
+	int 				m_iPri;			// æ•°æ®å¤„ç†ä¼˜å…ˆçº§
+	int 				m_iBase;		// fifo baseæŒ‡é’ˆ
+	int 				m_iTop;			// fifo topæŒ‡é’ˆ
+	int 				m_iMaxPkgCnt;	//æœ€å¤§å¯ç¼“å­˜åŒ…æ•°
+	DataPakg 			*m_ptBuf[0];	//è¯¥æˆå‘˜å¿…é¡»æ”¾åœ¨æœ€åŽï¼Œå¦åˆ™ä¼šå†…å­˜è¦†ç›–
 } ;
 
 /*
-* ¹¦ÄÜÃèÊö	£º	½«Êý¾Ý°ü·ÅÈëfifo
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	ptPkg		µ÷ÓÃDataPkgCreate²úÉúµÄÊý¾Ý°ü
-				pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	å°†æ•°æ®åŒ…æ”¾å…¥fifo
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	ptPkg		è°ƒç”¨DataPkgCreateäº§ç”Ÿçš„æ•°æ®åŒ…
+				pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoPush(DataPakg *ptPkg, TDataFIFO *pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	»ñÈ¡fifoÖÐÊý¾Ý°üµÄÊýÁ¿
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	èŽ·å–fifoä¸­æ•°æ®åŒ…çš„æ•°é‡
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 int DataFifoGetPkgsNum(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´ÓfifoÖÐÒÆ³ýÒ»¸öÊý¾Ý°ü
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	ä»Žfifoä¸­ç§»é™¤ä¸€ä¸ªæ•°æ®åŒ…
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoMove(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´ÓfifoÖÐ¸´ÖÆ³öÒ»¸öÊý¾Ý°ü
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	³É¹¦     	·µ»ØÖ¸ÏòÊý¾ÝµÄÖ¸Õë
-				Ê§°Ü	 	·µ»ØNULL
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	ä»Žfifoä¸­å¤åˆ¶å‡ºä¸€ä¸ªæ•°æ®åŒ…
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æˆåŠŸ     	è¿”å›žæŒ‡å‘æ•°æ®çš„æŒ‡é’ˆ
+				å¤±è´¥	 	è¿”å›žNULL
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 DataPakg *DataFifoCopy(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´ÓfifoÖÐ»ñÈ¡Ò»¸öÊý¾Ý°ü
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	³É¹¦     	·µ»ØÖ¸ÏòÊý¾ÝµÄÖ¸Õë
-				Ê§°Ü	 	·µ»ØNULL
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	ä»Žfifoä¸­èŽ·å–ä¸€ä¸ªæ•°æ®åŒ…
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æˆåŠŸ     	è¿”å›žæŒ‡å‘æ•°æ®çš„æŒ‡é’ˆ
+				å¤±è´¥	 	è¿”å›žNULL
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 DataPakg *DataFifoGet(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Çå¿ÕfifoÀïÃæµÄÊý¾Ý°ü
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	æ¸…ç©ºfifoé‡Œé¢çš„æ•°æ®åŒ…
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoClear(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Ïú»Ùfifo
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	é”€æ¯fifo
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoDestruct(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Fifo¼ÓËø
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	FifoåŠ é”
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoLock(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Fifo½âËø
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pthis		Ö¸ÏòfifoµÄthis Ö¸Õë
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	ÎÞ
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	Fifoè§£é”
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pthis		æŒ‡å‘fifoçš„this æŒ‡é’ˆ
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	æ— 
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */
 void DataFifoUnlock(TDataFIFO* pthis);
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Êý¾Ýfifo¹¹Ôìº¯Êý
-* ³ÉÔ±¸üÐÂ	:	ÎÞ
-* ÊäÈë²ÎÊý	£º	pool		ÒªÉêÇëÊý¾Ý°üµÄÄÚ´æ³ØÖ¸Õë
-				size		ÒªÉêÇë´æ·ÅÊý¾ÝµÄÊý¾Ý°ü´óÐ¡
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º	·Ç¿ÕÖ¸Õë	Ö¸ÏòÊý¾Ý°üµÄÖ¸Õë
-				NULL		ÉêÇëÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:	2013.08.29
+* åŠŸèƒ½æè¿°	ï¼š	æ•°æ®fifoæž„é€ å‡½æ•°
+* æˆå‘˜æ›´æ–°	:	æ— 
+* è¾“å…¥å‚æ•°	ï¼š	pool		è¦ç”³è¯·æ•°æ®åŒ…çš„å†…å­˜æ± æŒ‡é’ˆ
+				size		è¦ç”³è¯·å­˜æ”¾æ•°æ®çš„æ•°æ®åŒ…å¤§å°
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š	éžç©ºæŒ‡é’ˆ	æŒ‡å‘æ•°æ®åŒ…çš„æŒ‡é’ˆ
+				NULL		ç”³è¯·å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:	2013.08.29
 * -----------------------------------------------
 * 2013/08/29 V1.0		XXXX		  XXXX
 */

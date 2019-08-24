@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-//×Ô¶¨ÒåÍ·ÎÄ¼þ°üº¬ÇøÓò
+//è‡ªå®šä¹‰å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include "printf_func.h"
 #include "chn_vio.h"
 #include "chn_venc.h"
@@ -13,30 +13,30 @@
 #include "sys_mag.h"
 #include "tcp_client.h"
 
-//³£Á¿¶¨ÒåÇø
+//å¸¸é‡å®šä¹‰åŒº
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄºê
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„å®
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄÊý¾ÝÀàÐÍ
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„æ•°æ®ç±»åž‹
 
-//È«¾Ö±äÁ¿
+//å…¨å±€å˜é‡
 
-//¾²Ì¬¾Ö²¿±äÁ¿
-TDataFIFO*  			s_pSnap0_FIFO 		= NULL;	//×¥ÅÄfifo
-TDataFIFO*  			s_pSnap1_FIFO 		= NULL;	//×¥ÅÄfifo
+//é™æ€å±€éƒ¨å˜é‡
+TDataFIFO*  			s_pSnap0_FIFO 		= NULL;	//æŠ“æ‹fifo
+TDataFIFO*  			s_pSnap1_FIFO 		= NULL;	//æŠ“æ‹fifo
 
 
-//ÄÚ²¿º¯Êý
+//å†…éƒ¨å‡½æ•°
 
 /*
-* ¹¦ÄÜÃèÊö	£º	³õÊ¼»¯mppÏµÍ³
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ÎÞ
-* Êä³ö²ÎÊý	£º 	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	åˆå§‹åŒ–mppç³»ç»Ÿ
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š 	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -97,14 +97,14 @@ HI_S32 hi_mpp_vb_init(HI_VOID)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	·´³õÊ¼»¯mppÏµÍ³
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ÎÞ
-* Êä³ö²ÎÊý	£º 	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	ååˆå§‹åŒ–mppç³»ç»Ÿ
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š 	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -129,15 +129,15 @@ HI_S32 hi_mpp_vb_uninit(void)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´´½¨²¢Æô¶¯ÊÓÆµ±àÂëÍ¨µÀ
-* ÊäÈë²ÎÊý	£º	VencGrp	ÊÓÆµ±àÂëÍ¨µÀ×é
-										VencChn	ÊÓÆµ±àÂëÍ¨µÀ
-										ViChn	ÊÓÆµ²É¼¯Í¨µÀ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	åˆ›å»ºå¹¶å¯åŠ¨è§†é¢‘ç¼–ç é€šé“
+* è¾“å…¥å‚æ•°	ï¼š	VencGrp	è§†é¢‘ç¼–ç é€šé“ç»„
+										VencChn	è§†é¢‘ç¼–ç é€šé“
+										ViChn	è§†é¢‘é‡‡é›†é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2015/08/09     V1.0	    
 */
@@ -253,14 +253,14 @@ HI_S32 venc_chn_creat_and_start(VENC_GRP VencGrp, VENC_CHN VencChn, VI_CHN ViChn
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Í£Ö¹²¢Ïú»ÙÊÓÆµ±àÂëÍ¨µÀ
-* ÊäÈë²ÎÊý	£º	VencGrp	ÊÓÆµ±àÂëÍ¨µÀ×é
-										VencChn	ÊÓÆµ±àÂëÍ¨µÀ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	åœæ­¢å¹¶é”€æ¯è§†é¢‘ç¼–ç é€šé“
+* è¾“å…¥å‚æ•°	ï¼š	VencGrp	è§†é¢‘ç¼–ç é€šé“ç»„
+										VencChn	è§†é¢‘ç¼–ç é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2015/08/111     V1.0	    
 */
@@ -312,15 +312,15 @@ HI_S32 venc_chn_stop_and_destroy(VENC_GRP VencGrp, VENC_CHN VencChn)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	´´½¨²¢Æô¶¯×¥ÅÄ±àÂëÍ¨µÀ
-* ÊäÈë²ÎÊý	£º	VencGrp	ÊÓÆµ±àÂëÍ¨µÀ×é
-										VencChn	ÊÓÆµ±àÂëÍ¨µÀ
-										ViChn	ÊÓÆµ²É¼¯Í¨µÀ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	åˆ›å»ºå¹¶å¯åŠ¨æŠ“æ‹ç¼–ç é€šé“
+* è¾“å…¥å‚æ•°	ï¼š	VencGrp	è§†é¢‘ç¼–ç é€šé“ç»„
+										VencChn	è§†é¢‘ç¼–ç é€šé“
+										ViChn	è§†é¢‘é‡‡é›†é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2013/04/25     V1.0	    
 */
@@ -387,15 +387,15 @@ HI_S32 venc_snap_chn_start(VENC_GRP VencGrp,VENC_CHN VencChn, VI_CHN ViChn)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Ïú»Ù×¥ÅÄÍ¨µÀ
-* ÊäÈë²ÎÊý	£º	VencGrp	ÊÓÆµ±àÂëÍ¨µÀ×é
-										VencChn	ÊÓÆµ±àÂëÍ¨µÀ
-										ViChn	ÊÓÆµ²É¼¯Í¨µÀ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	é”€æ¯æŠ“æ‹é€šé“
+* è¾“å…¥å‚æ•°	ï¼š	VencGrp	è§†é¢‘ç¼–ç é€šé“ç»„
+										VencChn	è§†é¢‘ç¼–ç é€šé“
+										ViChn	è§†é¢‘é‡‡é›†é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2013/04/25     V1.0	    
 */
@@ -448,13 +448,13 @@ HI_S32 venc_snap_destroy_chn(VENC_GRP VeGroup, VENC_CHN VencChn, VI_CHN ViChn)
 
 
 /*
-* ¹¦ÄÜÃèÊö	£º	ÊÓÆµ±àÂëÏß³Ì
-* ÊäÈë²ÎÊý	£º	
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		
--1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	è§†é¢‘ç¼–ç çº¿ç¨‹
+* è¾“å…¥å‚æ•°	ï¼š	
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		
+-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2015/08/11              V1.0	    
 */
@@ -502,7 +502,7 @@ HI_VOID* venc_get_stream_proc(HI_VOID *args)
 		else if (s32Ret == 0)
 		{
 			ptf_dbg("time out psVencCtrl->m_VencChn %d",psVencCtrl->m_VencChn);
-			//·¢ËÍÉãÏñÍ·´íÎóÃüÁî
+			//å‘é€æ‘„åƒå¤´é”™è¯¯å‘½ä»¤
 			CMD_PARA cmdPara;
 			cmdPara.m_eType = CMD_FAILURE_CAMERA;
 						//cmdPara.m_eType = CMD_ELEC_ALARM_STOP_PUSH;
@@ -548,7 +548,7 @@ HI_VOID* venc_get_stream_proc(HI_VOID *args)
 				PoolDataVideo *pVSInfo = (PoolDataVideo *)(vpkg->m_datainfo);
 				pVSInfo->m_VFrameType = H264E_NALU_PSLICE;
 				gettimeofday(&sCurTime, NULL);
-				pVSInfo->m_PTS = sCurTime.tv_usec + sCurTime.tv_sec * 1000000;//stStream.pstPack[0].u64PTS;    //Ö¡Ä£Ê½
+				pVSInfo->m_PTS = sCurTime.tv_usec + sCurTime.tv_sec * 1000000;//stStream.pstPack[0].u64PTS;    //å¸§æ¨¡å¼
 				pVSInfo->m_VCount = count++;
 				if (count > 65535)
 				{
@@ -588,22 +588,22 @@ HI_VOID* venc_get_stream_proc(HI_VOID *args)
 	}
 
 	AllocatorFree((void*)pack);
-	//ÖØÆôÏµÍ³
+	//é‡å¯ç³»ç»Ÿ
 	sys_mag_reboot();
 	return NULL;
 }
 
-//È«¾Öº¯Êý
+//å…¨å±€å‡½æ•°
 
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Ç¿ÖÆ¹Ø¼üÖ¡
-* ÊäÈë²ÎÊý	£º	Âß¼­Í¨µÀ
-* Êä³ö²ÎÊý	£º
-* ·µ »Ø Öµ	£º		0´ú±í³É¹¦
-										-1´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	å¼ºåˆ¶å…³é”®å¸§
+* è¾“å…¥å‚æ•°	ï¼š	é€»è¾‘é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š
+* è¿” å›ž å€¼	ï¼š		0ä»£è¡¨æˆåŠŸ
+										-1ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2015/08/16     V1.0	    
 */
@@ -630,13 +630,13 @@ int venc_request_idr(int iLogicChn)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	×¥ÅÄÏß³Ì
-* ÊäÈë²ÎÊý	£º	
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		
--1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	æŠ“æ‹çº¿ç¨‹
+* è¾“å…¥å‚æ•°	ï¼š	
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		
+-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2015/08/11              V1.0	    
 */
@@ -729,7 +729,7 @@ HI_VOID* venc_get_snap_proc(HI_VOID *args)
 					}
 				}
 
-				//·ÅÈëfifo
+				//æ”¾å…¥fifo
 				if (pInfo->m_ViDev == 0)
 					DataFifoPush(vpkg, s_pSnap0_FIFO);
 				else
@@ -752,12 +752,12 @@ HI_VOID* venc_get_snap_proc(HI_VOID *args)
 	return NULL;
 }
 /*
-* ¹¦ÄÜÃèÊö	£º	»ñÈ¡×¥ÅÄÍ¼Æ¬
-* ÊäÈë²ÎÊý	£º	Venc	±àÂëÂß¼­Í¨µÀ
-* Êä³ö²ÎÊý	£º
-* ·µ »Ø Öµ	£º		Ê§°Ü·µ»Ø¿ÕÖ¸Õë
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	èŽ·å–æŠ“æ‹å›¾ç‰‡
+* è¾“å…¥å‚æ•°	ï¼š	Venc	ç¼–ç é€»è¾‘é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š
+* è¿” å›ž å€¼	ï¼š		å¤±è´¥è¿”å›žç©ºæŒ‡é’ˆ
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2013/04/25     V1.0	    
 */
@@ -769,7 +769,7 @@ DataPakg* venc_get_snap_picture(int  logicChn)
 		ptf_err("logicChn %d",logicChn);
 		return NULL;
 	}
-	//logicChn=0;  //2017_07_31  Ë«¸Äµ¥Ìí¼Ó
+	//logicChn=0;  //2017_07_31  åŒæ”¹å•æ·»åŠ 
 	DataPakg* pkg;
 	if (logicChn == 0)
 	{
@@ -815,13 +815,13 @@ void* isp_run(void* p)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	±àÂëÄ£¿é³õÊ¼»¯
-* ÊäÈë²ÎÊý	£º	ÎÞ
-* Êä³ö²ÎÊý	£º	ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º
-* ÐÞ¸ÄÈÕÆÚ 
+* åŠŸèƒ½æè¿°	ï¼š	ç¼–ç æ¨¡å—åˆå§‹åŒ–
+* è¾“å…¥å‚æ•°	ï¼š	æ— 
+* è¾“å‡ºå‚æ•°	ï¼š	æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š
+* ä¿®æ”¹æ—¥æœŸ 
 * -----------------------------------------------
 * 2013/04/25     V1.0	    
 */

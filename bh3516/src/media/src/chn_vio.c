@@ -1,11 +1,11 @@
-//±ê×¼Í·ÎÄ¼þ°üº¬ÇøÓò
+//æ ‡å‡†å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "ov_9712.h"
 
-//×Ô¶¨ÒåÍ·ÎÄ¼þ°üº¬ÇøÓò
+//è‡ªå®šä¹‰å¤´æ–‡ä»¶åŒ…å«åŒºåŸŸ
 #include "printf_func.h"
 #include "chn_vio.h"
 //line:vid:func_name:ret
@@ -56,30 +56,30 @@ void OV9712IspInit()
 
 }
 
-//³£Á¿¶¨ÒåÇø
+//å¸¸é‡å®šä¹‰åŒº
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄºê
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„å®
 
-//ÎÄ¼þÄÚ²¿Ê¹ÓÃµÄÊý¾ÝÀàÐÍ
+//æ–‡ä»¶å†…éƒ¨ä½¿ç”¨çš„æ•°æ®ç±»åž‹
 
-//È«¾Ö±äÁ¿
+//å…¨å±€å˜é‡
 
-//¾²Ì¬¾Ö²¿±äÁ¿
+//é™æ€å±€éƒ¨å˜é‡
 
-//ÄÚ²¿º¯Êý
+//å†…éƒ¨å‡½æ•°
 
-//È«¾Öº¯Êý
+//å…¨å±€å‡½æ•°
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Æô¶¯ÊÓÆµ²É¼¯Éè±¸
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º ViDev 		ÊÓÆµ²É¼¯Éè±¸±àºÅ
-										enViDevType	ÊÓÆµ²É¼¯ËùÑ¡ÓÃµÄÊÓÆµÊäÈëÊ±Ðò
-* Êä³ö²ÎÊý	£º ÎÞ
-* ·µ »Ø Öµ	£º		0	 ´ú±í³É¹¦
-										ÆäËûÖµ´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	å¯åŠ¨è§†é¢‘é‡‡é›†è®¾å¤‡
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š ViDev 		è§†é¢‘é‡‡é›†è®¾å¤‡ç¼–å·
+										enViDevType	è§†é¢‘é‡‡é›†æ‰€é€‰ç”¨çš„è§†é¢‘è¾“å…¥æ—¶åº
+* è¾“å‡ºå‚æ•°	ï¼š æ— 
+* è¿” å›ž å€¼	ï¼š		0	 ä»£è¡¨æˆåŠŸ
+										å…¶ä»–å€¼ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -181,7 +181,7 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 	s_ViDevCsc.u32LumaVal 	= 50;
 	s_ViDevCsc.u32HueVal		= 50;
 	s_ViDevCsc.u32ContrVal	= 50;
-	s_ViDevCsc.u32SatuVal		= 50;//0ÎªºÚ°×Í¼Ïñ
+	s_ViDevCsc.u32SatuVal		= 50;//0ä¸ºé»‘ç™½å›¾åƒ
 	s_ViDevCsc.enViCscType 	= VI_CSC_TYPE_709;
 	s32Ret =  HI_MPI_VI_SetCscAttr(ViDev, 0, &s_ViDevCsc);
 	if (s32Ret != HI_SUCCESS)
@@ -194,14 +194,14 @@ HI_S32 vi_start_dev(VI_DEV ViDev, SAMPLE_VI_DEV_TYPE_E enViDevType)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Í£Ö¹ÊÓÆµ²É¼¯Éè±¸
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ViDev ÊÓÆµ²É¼¯Éè±¸±àºÅ
-* Êä³ö²ÎÊý	£º ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	åœæ­¢è§†é¢‘é‡‡é›†è®¾å¤‡
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	ViDev è§†é¢‘é‡‡é›†è®¾å¤‡ç¼–å·
+* è¾“å‡ºå‚æ•°	ï¼š æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -217,16 +217,16 @@ HI_S32 vi_stop_dev(VI_DEV ViDev)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Æô¶¯ÊÓÆµ²É¼¯Í¨µÀ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ViDev 		ÊÓÆµ²É¼¯Éè±¸±àºÅ
-										ViChn 		ÊÓÆµ²É¼¯Éè±¸µÄÍ¨µÀµÄ²É¼¯Í¨µÀºÅ
-										enViDevType	ÊÓÆµ²É¼¯Éè±¸ÀàÐÍ
-* Êä³ö²ÎÊý	£º ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	å¯åŠ¨è§†é¢‘é‡‡é›†é€šé“
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	ViDev 		è§†é¢‘é‡‡é›†è®¾å¤‡ç¼–å·
+										ViChn 		è§†é¢‘é‡‡é›†è®¾å¤‡çš„é€šé“çš„é‡‡é›†é€šé“å·
+										enViDevType	è§†é¢‘é‡‡é›†è®¾å¤‡ç±»åž‹
+* è¾“å‡ºå‚æ•°	ï¼š æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -275,8 +275,8 @@ HI_S32 vi_start_base_chn(VI_DEV ViDev, VI_CHN ViChn, SAMPLE_VI_DEV_TYPE_E enViDe
 	stChnAttr.enCapSel 						= VI_CAPSEL_BOTH;
 	
 	/* to show scale. this is a sample only, we want to show dist_size = D1 onley */
-	stChnAttr.stDestSize.u32Width 		= BH_DEST_WIDTH;	//¹Ì¶¨Îª480
-	stChnAttr.stDestSize.u32Height 	= BH_DEST_HEIGHT;	//¹Ì¶¨Îª480
+	stChnAttr.stDestSize.u32Width 		= BH_DEST_WIDTH;	//å›ºå®šä¸º480
+	stChnAttr.stDestSize.u32Height 	= BH_DEST_HEIGHT;	//å›ºå®šä¸º480
 	stChnAttr.enPixFormat 					= PIXEL_FORMAT_YUV_SEMIPLANAR_422;   /* sp420 or sp422 */
 	stChnAttr.bMirror 	= HI_FALSE;
 	stChnAttr.bFilp 		= HI_FALSE;
@@ -286,7 +286,7 @@ HI_S32 vi_start_base_chn(VI_DEV ViDev, VI_CHN ViChn, SAMPLE_VI_DEV_TYPE_E enViDe
 	stChnBindAttr.unBindAttr.stBindPhyChn.s32PhyChn 	= ViChn;
 	stChnBindAttr.unBindAttr.stBindPhyChn.ViDev 			= ViDev;
 	stChnBindAttr.unBindAttr.stBindPhyChn.ViWay 			= 0;
-	//°ó¶¨viÎïÀíÍ¨µÀ
+	//ç»‘å®šviç‰©ç†é€šé“
 	s32Ret = HI_MPI_VI_ChnBind(ViChn, &stChnBindAttr);
 	if (s32Ret != HI_SUCCESS)
 	{
@@ -294,7 +294,7 @@ HI_S32 vi_start_base_chn(VI_DEV ViDev, VI_CHN ViChn, SAMPLE_VI_DEV_TYPE_E enViDe
 		return HI_FAILURE;
 	}
 	#if 1
-	//ÉèÖÃviÍ¨µÀÊôÐÔ
+	//è®¾ç½®vié€šé“å±žæ€§
 	s32Ret = HI_MPI_VI_SetChnAttr(ViChn, &stChnAttr);
 	if (s32Ret != HI_SUCCESS)
 	{
@@ -303,7 +303,7 @@ HI_S32 vi_start_base_chn(VI_DEV ViDev, VI_CHN ViChn, SAMPLE_VI_DEV_TYPE_E enViDe
 		return HI_FAILURE;
 	}	
 	#endif
-	//Ê¹ÄÜvi Í¨µÀ
+	//ä½¿èƒ½vi é€šé“
 	s32Ret = HI_MPI_VI_EnableChn(ViChn);
 	if (s32Ret != HI_SUCCESS)
 	{
@@ -315,14 +315,14 @@ HI_S32 vi_start_base_chn(VI_DEV ViDev, VI_CHN ViChn, SAMPLE_VI_DEV_TYPE_E enViDe
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Í£Ö¹ÊÓÆµ²É¼¯Í¨µÀ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ViChn 		ÊÓÆµ²É¼¯Éè±¸µÄÍ¨µÀµÄ²É¼¯Í¨µÀºÅ
-* Êä³ö²ÎÊý	£º 	ÎÞ
-* ·µ »Ø Öµ	£º		0	´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	åœæ­¢è§†é¢‘é‡‡é›†é€šé“
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	ViChn 		è§†é¢‘é‡‡é›†è®¾å¤‡çš„é€šé“çš„é‡‡é›†é€šé“å·
+* è¾“å‡ºå‚æ•°	ï¼š 	æ— 
+* è¿” å›ž å€¼	ï¼š		0	ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -345,15 +345,15 @@ HI_S32 vi_stop_base_chn(VI_CHN ViChn)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Æô¶¯×¥ÅÄÍ¨µÀ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ViBaseChn 		ÊÓÆµ²É¼¯baseÍ¨µÀ
-										ViExtChn			ÊÓÆµ²É¼¯À©Õ¹Í¨µÀ
-* Êä³ö²ÎÊý	£º ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	å¯åŠ¨æŠ“æ‹é€šé“
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	ViBaseChn 		è§†é¢‘é‡‡é›†baseé€šé“
+										ViExtChn			è§†é¢‘é‡‡é›†æ‰©å±•é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */
@@ -383,14 +383,14 @@ HI_S32 vi_start_snap_ext_chn(VI_CHN ViBaseChn, VI_CHN ViExtChn)
 }
 
 /*
-* ¹¦ÄÜÃèÊö	£º	Í£Ö¹×¥ÅÄÍ¨µÀ
-* ³ÉÔ±¸üÐÂ	:		ÎÞ
-* ÊäÈë²ÎÊý	£º 	ViExtChn	ÊÓÆµ²É¼¯À©Õ¹Í¨µÀ
-* Êä³ö²ÎÊý	£º ÎÞ
-* ·µ »Ø Öµ	£º		0		´ú±í³É¹¦
-										-1	´ú±íÊ§°Ü
-* ÆäËüËµÃ÷	£º	ÎÞ
-* ÐÞ¸ÄÈÕÆÚ	:		2015.08.09
+* åŠŸèƒ½æè¿°	ï¼š	åœæ­¢æŠ“æ‹é€šé“
+* æˆå‘˜æ›´æ–°	:		æ— 
+* è¾“å…¥å‚æ•°	ï¼š 	ViExtChn	è§†é¢‘é‡‡é›†æ‰©å±•é€šé“
+* è¾“å‡ºå‚æ•°	ï¼š æ— 
+* è¿” å›ž å€¼	ï¼š		0		ä»£è¡¨æˆåŠŸ
+										-1	ä»£è¡¨å¤±è´¥
+* å…¶å®ƒè¯´æ˜Ž	ï¼š	æ— 
+* ä¿®æ”¹æ—¥æœŸ	:		2015.08.09
 * -----------------------------------------------
 * 2015/08/09		 V1.0		XXXX		  XXXX
 */

@@ -1131,6 +1131,7 @@ void ov9712_enable(void)
 	gpio_set_ov9712_rstb_disable();
 	//给sennsor上电
 	gpio_set_ov9712_pwdn_on();
+
 	return ;
 }
 
